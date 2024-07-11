@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Products Page</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      .product-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px; /* Adjust spacing between products */
+      }
+      .product {
+        width: calc(
+          33.33% - 20px
+        ); /* Three products per row with 20px spacing */
+        text-align: center;
+        border: 1px solid #ccc;
+        padding: 10px;
+      }
+      .product img {
+        max-width: 100%;
+        height: auto;
+      }
+      .pagination {
+        margin-top: 20px;
+      }
+      .pagination a {
+        display: inline-block;
+        padding: 8px 16px;
+        text-decoration: none;
+        background-color: #f1f1f1;
+        color: black;
+        border: 1px solid #ccc;
+      }
+      .pagination a.active {
+        background-color: #4caf50;
+        color: white;
+        border: 1px solid #4caf50;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Our Products</h1>
+
+    <div id="productContainer" class="product-container">
+      <!-- Products will be dynamically added here -->
+      <% product.forEach(product => { %>
+      <div class="product">
+        <% if (product.imagePath) { %>
+        <img src="<%= product.imagePath %>" alt="<%= product.name %>" />
+        <% } %>
+        <h2><%= product.name %></h2>
+        <p>$<%= product.price %></p>
+        <p><%= product.description %></p>
+      </div>
+      <% }); %>
+    </div>
+
+    <div class="pagination">
+      <% const totalPages = Math.ceil(totalProductsCount / 10); %> <% for (let i
+      = 1; i <= totalPages; i++) { %>
+      <a
+        href="/products?page=<%= i %>&limit=10"
+        class="<%= i === currentPage ? 'active' : '' %>"
+        ><%= i %></a
+      >
+      <% } %>
+    </div>
+
+    <script>
+      // You can optionally include JavaScript here for additional functionality
+    </script>
+  </body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-commerce Admin</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Upload Product</h1>
+    <form id="productForm" action = "/" method = "POST" enctype="multipart/form-data">
+        <div><span>Name:</span><input type="text" name="name" placeholder="Product Name" required><br><br>
+        </div>
+        <div><span>Price: </span><input type="number" name="price" placeholder="Price" required><br><br>
+        <div><span>Description: </span><textarea name="description" placeholder="Description" required></textarea><br><br>
+        <div><span>Upload Image:</span><input type="file" name="imagePath" accept="image/*" required><br><br></div>
+        <button type="submit">Upload</button>
+    </form>
+    <script>
+        document.getElementById('productForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            console.log(formData)
+
+            fetch('/products', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                alert('Product uploaded successfully!');
+                // Optionally reset the form
+                // this.reset();
+            })
+            .catch(error => {
+                console.error(error);
+                alert('Error uploading product');
+            });
+        });
+    </script>
+</body>
+</html>
