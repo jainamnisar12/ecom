@@ -3,7 +3,7 @@ const Product = require('../model/productModel');
 // Get all products
 exports.getAllProducts = async (req, res) => {
     try {
-        const products = await Product.find();
+        const products = await Product.find({});
         res.render('product', { products }); // Render 'allProducts.ejs' and pass products data
     } catch (error) {
         console.error('Error fetching products:', error);
@@ -28,55 +28,39 @@ exports.getAllProducts = async (req, res) => {
     }
 };
 
-// Get a single product by ID
-exports.getProductById = async (req, res) => {
+// Update a product by ID
+exports.updateProductById = async (req, res) => {
     const productId = req.params.id;
+    const { name, price, description, imagePath } = req.body;
 
     try {
-        const product = await Product.findById(productId);
-        if (!product) {
+        const updatedProduct = await Product.findByIdAndUpdate(
+            productId,
+            { name, price, description, imagePath },
+            { new: true }
+        );
+        if (!updatedProduct) {
             return res.status(404).json({ error: 'Product not found' });
         }
-        res.status(200).json(product);
+        res.status(200).json(updatedProduct);
     } catch (error) {
-        console.error('Error fetching product:', error);
-        res.status(500).json({ error: 'Failed to fetch product' });
+        console.error('Error updating product:', error);
+        res.status(500).json({ error: 'Failed to update product' });
     }
 };
 
-// // Update a product by ID
-// exports.updateProductById = async (req, res) => {
-//     const productId = req.params.id;
-//     const { name, price, description, imagePath } = req.body;
+// Delete a product by ID
+exports.deleteProductById = async (req, res) => {
+    const productId = req.params.id;
 
-//     try {
-//         const updatedProduct = await Product.findByIdAndUpdate(
-//             productId,
-//             { name, price, description, imagePath },
-//             { new: true }
-//         );
-//         if (!updatedProduct) {
-//             return res.status(404).json({ error: 'Product not found' });
-//         }
-//         res.status(200).json(updatedProduct);
-//     } catch (error) {
-//         console.error('Error updating product:', error);
-//         res.status(500).json({ error: 'Failed to update product' });
-//     }
-// };
-
-// // Delete a product by ID
-// exports.deleteProductById = async (req, res) => {
-//     const productId = req.params.id;
-
-//     try {
-//         const deletedProduct = await Product.findByIdAndDelete(productId);
-//         if (!deletedProduct) {
-//             return res.status(404).json({ error: 'Product not found' });
-//         }
-//         res.status(200).json({ message: 'Product deleted successfully' });
-//     } catch (error) {
-//         console.error('Error deleting product:', error);
-//         res.status(500).json({ error: 'Failed to delete product' });
-//     }
-// };
+    try {
+        const deletedProduct = await Product.findByIdAndDelete(productId);
+        if (!deletedProduct) {
+            return res.status(404).json({ error: 'Product not found' });
+        }
+        res.status(200).json({ message: 'Product deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting product:', error);
+        res.status(500).json({ error: 'Failed to delete product' });
+    }
+};
