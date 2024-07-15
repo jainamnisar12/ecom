@@ -10,13 +10,22 @@
     <form action="/register" method="POST">
         <div>
             <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
+            <input type="email" id="email" name="email" required><br>
         </div>
         <div>
             <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
+            <input type="password" id="password" name="password" required><br>
         </div>
         <button type="submit">Register</button>
     </form>
+    <button id="loginButton">Login</button>
+
+    <script>
+        // Add event listener to the Login button
+        document.getElementById('loginButton').addEventListener('click', function() {
+            // Redirect to login page
+            window.location.href = '/login'; // Replace with the correct route to your login page
+        });
+    </script>
 </body>
 </html>
